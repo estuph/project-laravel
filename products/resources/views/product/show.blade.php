@@ -7,9 +7,8 @@
 @section('content')
     @section('content')
     <div class="section-header">
-        <h1>Product Details</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></div>
+            <div class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
             <div class="breadcrumb-item"><a href="{{ route('products.index') }}">Products</a></div>
             <div class="breadcrumb-item active">Product Details</div>
         </div>
@@ -28,10 +27,6 @@
                             <p>{{ $product->name }}</p>
                         </div>
                         <div class="form-group">
-                            <label for="price">Price</label>
-                            <p>{{ $product->price }}</p>
-                        </div>
-                        <div class="form-group">
                             <label for="created_at">Created At</label>
                             <p>{{ $product->created_at }}</p>
                         </div>
@@ -39,10 +34,6 @@
                             <label for="updated_at">Last Updated</label>
                             <p>{{ $product->updated_at }}</p>
                         </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Edit</a>
-                        <a href="{{ route('products.index') }}" class="btn btn-secondary">Back to List</a>
                     </div>
                 </div>
 
@@ -62,7 +53,6 @@
                                             <th>Name</th>
                                             <th>Stock</th>
                                             <th>Price</th>
-                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -71,16 +61,7 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $variant->name }}</td>
                                                 <td>{{ $variant->stock }}</td>
-                                                <td>{{ $variant->price }}</td>
-                                                <td>
-                                                    <a href="{{ route('variants.show', $variant->id) }}" class="btn btn-info">Show</a>
-                                                    <a href="{{ route('variants.edit', $variant->id) }}" class="btn btn-warning">Edit</a>
-                                                    <form action="{{ route('variants.destroy', $variant->id) }}" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </td>
+                                                <td>Rp{{number_format($variant->price, 0, ',', '.')  }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -89,7 +70,7 @@
                         @endif
                     </div>
                     <div class="card-footer text-right">
-                        <a href="{{ route('variants.create') }}" class="btn btn-primary">Add New Variant</a>
+                        <a href="{{ route('products.index') }}" class="btn btn-dark">Back</a>
                     </div>
                 </div>
             </div>

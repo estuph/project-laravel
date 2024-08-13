@@ -13,18 +13,28 @@
     </div>
 
     <div class="section-body">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                      <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+         @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Variants List</h4>
                         <div class="card-header-action">
-                            <a href="{{ route('variants.create') }}" class="btn btn-primary">Add New Variant</a>
+                            <a href="{{ route('variants.create') }}" class="btn btn-primary">Add Variant</a>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table id="variant-table" class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -49,7 +59,9 @@
                                                 <form action="{{ route('variants.destroy', $variant->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus pengeluaran ini?')">
+                                                        Delete
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -58,13 +70,18 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer text-right">
-                        {{ $variants->links() }}
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#variant-table').DataTable();
+            });
+    </script>
 @endsection
 
 

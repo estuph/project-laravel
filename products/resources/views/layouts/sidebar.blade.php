@@ -15,7 +15,7 @@
             <li><a class="nav-link" href="{{ route('suppliers.index') }}"><i class="fas fa-truck"></i> <span>Suppliers</span></a></li>
             <li><a class="nav-link" href="{{ route('pengeluarans.index') }}"><i class="fas fa-wallet"></i> <span>Pengeluaran</span></a></li>
             <li><a class="nav-link" href="{{ route('pembelians.index') }}"><i class="fas fa-shopping-cart"></i> <span>Pembelian</span></a></li>
-            <li><a class="nav-link" href="{{ route('penjualans.index') }}"><i class="fas fa-cash-register"></i> <span>Penjualan</span></a></li>
+            <li><a class="nav-link" href="{{route('penjualans.index')}}"><i class="fas fa-cash-register"></i> <span>Penjualan</span></a></li>
             <li class="menu-header">System</li>
             <li><a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i> <span>Users</span></a></li>
             <li class="menu-header">Laporan</li>

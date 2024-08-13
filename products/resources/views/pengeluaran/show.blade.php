@@ -17,6 +17,6 @@
         <label for="jumlah">Jumlah:</label>
         <p>Rp{{number_format($pengeluaran->jumlah, 0, ',', '.')  }}</p>
     </div>
-    <a href="{{ route('pengeluaran.index') }}" class="btn btn-dark">Back</a>
+    <a href="{{ route('pengeluarans.index') }}" class="btn btn-dark">Back</a>
 </div>
 @endsection

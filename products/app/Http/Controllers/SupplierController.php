@@ -22,7 +22,7 @@ class SupplierController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'contact_info' => 'nullable'
+            'contact_info' => 'nullable|numeric|digits_between:10,15'
         ]);
 
         Supplier::create($request->all());
@@ -34,14 +34,16 @@ class SupplierController extends Controller
         return view('supplier.edit', compact('supplier'));
     }
 
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'contact_info' => 'nullable'
+            'contact_info' => 'nullable|numeric|digits_between:10,15'
         ]);
 
+        $supplier = Supplier::findOrFail($id);
         $supplier->update($request->all());
+
         return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully.');
     }
 

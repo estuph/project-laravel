@@ -5,26 +5,31 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ route('pengeluarans.create') }}" class="btn btn-primary mb-3">Tambah Pengeluaran</a>
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-    <table class="table table-bordered table-striped">
+    <a href="{{ route('pengeluarans.create') }}" class="btn btn-primary mb-3">Add Pengeluaran</a>
+    @if (session('success'))
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                      <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+         @endif
+    <table id="pengeluaran-table" class="table table-striped" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Tanggal</th>
                 <th>Keterangan</th>
                 <th>Jumlah</th>
-                <th>Aksi</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($pengeluarans as $pengeluaran)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ $loop->iteration  }}</td>
                 <td>{{ $pengeluaran->tanggal }}</td>
                 <td>{{ $pengeluaran->keterangan }}</td>
                 <td>Rp{{number_format( $pengeluaran->jumlah, 0,',', '.') }}</td>
@@ -42,4 +47,12 @@
         </tbody>
     </table>
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#pengeluaran-table').DataTable();
+            });
+    </script>
 @endsection

@@ -9,13 +9,27 @@ class Laporan extends Model
 {
     use HasFactory;
 
+    protected $fillable = 
+    [
+        'tanggal',
+        'penjualan',
+        'pembelian',
+        'pengeluaran',
+        'pendapatan'
+    ];
+
     public function penjualans()
     {
-        return $this->hasMany(Penjualan::class);
+        return $this->belongsTo(Penjualan::class);
+    }
+
+    public function pembelians()
+    {
+        return $this->belongsTo(Pembelian::class);
     }
 
     public function pengeluarans()
     {
-        return $this->hasMany(Pengeluaran::class);
+        return $this->belongsTo(Pengeluaran::class);
     }
 }

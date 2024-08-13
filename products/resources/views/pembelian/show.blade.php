@@ -35,7 +35,7 @@
                 <label>Total</label>
                 <p>Rp{{ number_format($pembelian->total, 0, ',', '.')  }}</p>
             </div>
-            <a href="{{ route('pembelians.index') }}" class="btn btn-primary">Kembali</a>
+            <a href="{{ route('pembelians.index') }}" class="btn btn-dark">Back</a>
         </div>
     </div>
 </div>

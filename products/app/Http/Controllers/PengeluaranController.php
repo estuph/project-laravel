@@ -27,7 +27,7 @@ class PengeluaranController extends Controller
         ]);
 
         Pengeluaran::create($request->all());
-        return redirect()->route('pengeluarans.index')->with('success', 'Pengeluaran berhasil ditambahkan.');
+        return redirect()->route('pengeluarans.index')->with('success', 'Pengeluaran created successfully.');
     }
 
     public function show(Pengeluaran $pengeluaran)
@@ -49,12 +49,12 @@ class PengeluaranController extends Controller
         ]);
 
         $pengeluaran->update($request->all());
-        return redirect()->route('pengeluarans.index')->with('success', 'Pengeluaran berhasil diupdate.');
+        return redirect()->route('pengeluarans.index')->with('success', 'Pengeluaran updated successfully.');
     }
 
     public function destroy(Pengeluaran $pengeluaran)
     {
         $pengeluaran->delete();
-        return redirect()->route('pengeluarans.index')->with('success', 'Pengeluaran berhasil dihapus.');
+        return redirect()->route('pengeluarans.index')->with('success', 'Pengeluaran deleted successfully.');
     }
 }

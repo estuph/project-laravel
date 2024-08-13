@@ -4,23 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Variant;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Penjualan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenjualanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $penjualans = Penjualan::with('product', 'variant')->paginate(10);
-        return view('penjualan.index', compact('penjualans'));
+        $penjualans = Penjualan::all();
         
+        return view('penjualan.index', compact('penjualans'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $products = Product::all();
-        $variants = Variant::all();
+        $variants = collect(); // Koleksi kosong sebagai default
+
+        if ($request->has('product_id')) {
+            $variants = Variant::where('product_id', $request->input('product_id'))->get();
+        }
+
         return view('penjualan.create', compact('products', 'variants'));
     }
 
@@ -49,7 +55,7 @@ class PenjualanController extends Controller
         $variant = Variant::find($penjualan->variant_id);
         $variant->decreaseStock($penjualan->quantity);
 
-        return redirect()->route('penjualans.index')->with('success', 'Penjualan berhasil ditambahkan.');
+        return redirect()->route('penjualans.index')->with('success', 'Penjualan created successfully.');
         
     }
 
@@ -104,7 +110,7 @@ class PenjualanController extends Controller
         $newVariant->decreaseStock($penjualan->quantity);
     }
 
-    return redirect()->route('penjualans.index')->with('success', 'Penjualan berhasil diupdate.');
+    return redirect()->route('penjualans.index')->with('success', 'Penjualan updated successfully.');
     
     }
 
@@ -113,18 +119,22 @@ class PenjualanController extends Controller
         $penjualan->delete();
 
         return redirect()->route('penjualans.index')
-                         ->with('success', 'Penjualan berhasil dihapus.');
+                         ->with('success', 'Penjualan deleted successfully.');
     }
 
-    public function print($id)
+    public function printByDate($date, Request $request)
     {
-        $penjualan = Penjualan::findOrFail($id);
-
-        $pdf = Pdf::loadView('penjualan.print', compact('penjualan'))
-                  ->setPaper(0,0,609,440, 'potrait'); 
+        $date = $request->input('tanggal');
     
-        return $pdf->stream('nota-penjualan.pdf');
+        // Konversi tanggal ke format yang sesuai
+        $formattedDate = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
+        
+        $penjualans = Penjualan::whereDate('tanggal', $formattedDate)->get();
+        
+        $pdf = Pdf::loadView('penjualan.print_by_date', compact('penjualans', 'date'))
+                ->setPaper('a4', 'portrait'); 
+        
+        return $pdf->stream('nota-penjualan-'.$date.'.pdf');
     }
-
-   
+  
 }

@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('product.create');
+        return view ('product.create');
     }
 
     public function store(Request $request)
@@ -35,9 +35,8 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::with('variants')->findOrFail($id);
-        return view('products.show', compact('product'));
         
-       
+        return view('product.show', compact('product'));
     }
 
     public function edit(Product $product)

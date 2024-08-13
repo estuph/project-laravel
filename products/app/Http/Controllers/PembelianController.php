@@ -12,16 +12,21 @@ class PembelianController extends Controller
 {
     public function index()
     {
-        $pembelians = Pembelian::with('product', 'supplier', 'variant')->paginate(10);
+        $pembelians = Pembelian::all();
         return view('pembelian.index', compact('pembelians'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $products = Product::all();
         $suppliers = Supplier::all();
-        $variants = Variant::all();
-        return view('pembelian.create', compact('products', 'suppliers', 'variants'));
+        $products = Product::all();
+        $variants = collect(); // Koleksi kosong sebagai default
+    
+        if ($request->has('product_id')) {
+            $variants = Variant::where('product_id', $request->input('product_id'))->get();
+        }
+    
+        return view('pembelian.create', compact('suppliers', 'products', 'variants'));
     }
 
     public function store(Request $request)
@@ -49,7 +54,7 @@ class PembelianController extends Controller
         $variant = Variant::find($pembelian->variant_id);
         $variant->increaseStock($pembelian->quantity);
     
-        return redirect()->route('pembelians.index')->with('success', 'Pembelian berhasil ditambahkan.');
+        return redirect()->route('pembelians.index')->with('success', 'Pembelian created successfully.');
     }
 
     public function show($id)
@@ -91,7 +96,7 @@ class PembelianController extends Controller
         $variant->stock += $data['quantity'];
         $variant->save();
     
-        return redirect()->route('pembelians.index')->with('success', 'Pembelian berhasil diupdate.');
+        return redirect()->route('pembelians.index')->with('success', 'Pembelian updated successfully.');
     }
 
     public function destroy(Pembelian $pembelian)
@@ -103,6 +108,6 @@ class PembelianController extends Controller
         $pembelian->delete();
 
         return redirect()->route('pembelians.index')
-                         ->with('success', 'Pembelian berhasil dihapus.');
+                         ->with('success', 'Pembelian deleted successfully.');
     }
 }

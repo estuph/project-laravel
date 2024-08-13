@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PengeluaranController;
-use App\Http\Controllers\UserController;
 
 
 /*
@@ -45,6 +45,8 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::put('/users/{id}/update-role', [UserController::class, 'updateRole'])->name('users.updateRole');
+
 
     // Route Product 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -85,6 +87,7 @@ Route::middleware(['auth', 'role:admin'])->group(function() {
     // Route Laporan 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporan/generate', [LaporanController::class, 'generateReport'])->name('laporan.generate');
+    Route::get('/laporan/result', [LaporanController::class, 'result'])->name('laporan.result');
     Route::post('/laporan/print', [LaporanController::class, 'printReport'])->name('laporan.print');
 });
 
@@ -100,7 +103,7 @@ Route::middleware(['auth', 'role:admin,kasir'])->group(function() {
     Route::get('/penjualans/{penjualan}/edit', [PenjualanController::class, 'edit'])->name('penjualans.edit');
     Route::put('/penjualans/{penjualan}', [PenjualanController::class, 'update'])->name('penjualans.update');
     Route::delete('/penjualans/{penjualan}', [PenjualanController::class, 'destroy'])->name('penjualans.destroy');
-    Route::get('penjualans/print/{id}', [PenjualanController::class, 'print'])->name('penjualans.print');
+    Route::get('/penjualans/print/{date}', [PenjualanController::class, 'printByDate'])->name('penjualans.printByDate');
 
     // Route Pembelian
     Route::get('/pembelians', [PembelianController::class, 'index'])->name('pembelians.index');

@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pembelians', function (Blueprint $table) {
-            // $table->foreignId('supplier_id')->constrained()->onDelete('cascade')->after('id');
             if (!Schema::hasColumn('pembelians', 'supplier_id')) {
                 $table->foreignId('supplier_id')->constrained()->onDelete('cascade');
             }
@@ -25,8 +24,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pembelians', function (Blueprint $table) {
-            // $table->dropForeign(['supplier_id']);
-            // $table->dropColumn('supplier_id');
             if (Schema::hasColumn('pembelians', 'supplier_id')) {
                 $table->dropForeign(['supplier_id']);
                 $table->dropColumn('supplier_id');

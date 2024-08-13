@@ -26,7 +26,7 @@
             @foreach ($reportData as $index => $data)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $data['date'] }}</td>
+                    <td>{{ $data['tanggal'] }}</td>
                     <td>Rp {{ number_format($data['penjualan'], 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($data['pembelian'], 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($data['pengeluaran'], 0, ',', '.') }}</td>
@@ -41,4 +41,5 @@
     </table>
 </div>
 @endsection
+
 

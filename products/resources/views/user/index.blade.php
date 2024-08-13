@@ -7,19 +7,19 @@
 @section('content')
 <div class="section-body">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between">
             <h4>Daftar Pengguna</h4>
             <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah Pengguna</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table id="user-table" class="table table-striped" style="width:100%">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nama</th>
                             <th>Email</th>
-                            <th>Peran</th>
+                            <th>Role</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -29,7 +29,16 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->role }}</td>
+                            <td>
+                                <form action="{{ route('users.updateRole', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <select class="form-control" name="role" onchange="this.form.submit()">
+                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        <option value="kasir" {{ $user->role == 'kasir' ? 'selected' : '' }}>Kasir</option>
+                                    </select>
+                                </form>
+                            </td>
                             <td>
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm">Detail</a>
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -44,9 +53,16 @@
                     </tbody>
                 </table>
             </div>
-            {{-- {{ $users->links() }} --}}
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#user-table').DataTable();
+    });
+</script>
 @endsection
 

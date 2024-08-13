@@ -43,4 +43,10 @@ class Variant extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    public function penjualans()
+    {
+        return $this->hasMany(Penjualan::class, 'variant_id', 'id');
+
+    }
 }

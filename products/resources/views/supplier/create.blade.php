@@ -13,8 +13,13 @@
                 <input type="text" id="name" name="name" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="contact_info">Contact Info:</label>
-                <textarea id="contact_info" name="contact_info" class="form-control"></textarea>
+                <label for="contact_info">Contact:</label>
+                <input id="contact_info" type="text"  name="contact_info" class="form-control @error('contact_info') is-invalid @enderror" ></input>
+                @error('contact_info')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
             <button type="submit" class="btn btn-primary">Add Supplier</button>
         </form>
